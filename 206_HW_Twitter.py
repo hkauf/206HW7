@@ -63,7 +63,15 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 #### Recommended order of tasks: ####
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
+CACHE_FNAME = 'cache_geo_locations.json' # String for your file. We want the JSON file type, bcause that way, we can easily get the information into a Python dictionary!
 
+try:
+    cache_file = open(CACHE_FNAME, 'r') # Try to read the data from the file
+    cache_information = cache_file.read()  # If it's there, get it into a string
+    CACHE_dict = json.loads(cache_contents) # And then load it into a dictionary
+    cache_file.close() # Close the file, we're good, we got the data in a dictionary.
+except:
+    CACHE_dict= {}
 
 
 ## 2. Write a function to get twitter data that works with the caching pattern, 
