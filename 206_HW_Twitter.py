@@ -63,13 +63,13 @@ api = tweepy.API(auth, parser=tweepy.parsers.JSONParser())
 #### Recommended order of tasks: ####
 ## 1. Set up the caching pattern start -- the dictionary and the try/except 
 ## 		statement shown in class.
-CACHE_FNAME = 'cache_geo_locations.json' # String for your file. We want the JSON file type, bcause that way, we can easily get the information into a Python dictionary!
+CACHE_FNAME = 'cache.json'
 
 try:
-    cache_file = open(CACHE_FNAME, 'r') # Try to read the data from the file
-    cache_information = cache_file.read()  # If it's there, get it into a string
-    CACHE_dict = json.loads(cache_contents) # And then load it into a dictionary
-    cache_file.close() # Close the file, we're good, we got the data in a dictionary.
+    cache_file = open(CACHE_FNAME, 'r')
+    cache_information = cache_file.read()  
+    CACHE_dict = json.loads(cache_contents) 
+    cache_file.close() 
 except:
     CACHE_dict= {}
 
@@ -87,7 +87,9 @@ except:
 ## 4. With what you learn from the data -- e.g. how exactly to find the 
 ##		text of each tweet in the big nested structure -- write code to print out 
 ## 		content from 5 tweets, as shown in the linked example.
-
+for tweet in range(6(twitter)):
+	print(tweet['text'])
+	print("\n")
 
 
 
