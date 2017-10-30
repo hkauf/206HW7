@@ -72,63 +72,50 @@ try:
     CACHE_dict = json.loads(cache_information) #load string into a dictionary
     cache_file.close() #close the file
 except:
-    CACHE_dict= {}
+    CACHE_dict= {} #empty dictionary
 
 ## 2. Write a function to get twitter data that works with the caching pattern, 
 ## 		so it either gets new data or caches data, depending upon what the input 
 ##		to search for is. 
 
-def findTweets(search):
+def findTweets(search): #creating function
 	if search in CACHE_dict: #if the word that is searched is in the cached dictionary
 		print ('with cache ') #print with cache 
 		return CACHE_dict[search] #return the tweet from the cache
 	
 	else: #if the search word is not in the cache
 		print ('fetching ') #print fetching
+		# send = api.search(t= search)
 		api = tweepy.API(auth, parser=tweepy.parsers.JSONParser()) 
-		public_tweets = api.home_timeline() #collecting all tweets
-		tweets= {}
+		public_tweets = api.search(search) #collecting all tweets
+		tweets= {} #creating empty dict for tweets
 		
 
 
 ## 3. Using a loop, invoke your function, save the return value in a variable, and explore the 
 ##		data you got back!
-		for tweet in public_tweets:
-			tweets[tweet['text']] = tweet['created_at'] #making the dictionary
+		for item in public_tweets['statuses']:
+			tweets[item['text']] = item['created_at'] #adding the key value pairs to the dictionary
 		
-		CACHE_dict[search]= tweets
-		writingfile = open(CACHE_FNAME, 'w')
-		writingfile.write(json.dumps(CACHE_dict))
-		writingfile.close()
+		CACHE_dict[search]= tweets #updating cache
+		writingfile = open(CACHE_FNAME, 'w') #opening cache ready to write
+		writingfile.write(json.dumps(CACHE_dict)) #writing cache
+		writingfile.close() #closing file 
 	
-	return tweets
+	return tweets #return the dictionary
 
 ## 4. With what you learn from the data -- e.g. how exactly to find the 
 ##		text of each tweet in the big nested structure -- write code to print out 
 ## 		content from 5 tweets, as shown in the linked example.
-for item in range(2):
-search = input('Enter phrase to search Twitter for: ')
-tweets = findTweets(search)
-	# readingfile = open(CACHE_FNAME, 'r')
-	# tweetsjson = json.load(readingfile)
-count = 0
+for item in range(3): #loop 3 times
+	word = input('Enter Twitter Search Phrase: ') #user input
+	data = findTweets(word) #invoke function with user input
 
-for item in tweets.keys():
-	if (count < 5):
-	# for item in tweetsjson[search].keys():
-	# 	get = tweetsjson[search].values()[count]
-	# 	newformat = list(get)
-
-		print("TEXT: " + item)
-		print("CREATED AT: " + tweets[item] + '\n')
-
-		count +=1
-	# print(tweet['text'])
-	# print("\n")
-
-
-
-
-
-
+	count = 0 #count is 0
+	for item in data.keys(): #for the item in the dictionary keys
+	    if (count < 5): 
+	        print ("TEXT: " + item) #print the text of the tweet 
+	        print ("CREATED AT: " + data[item]) #print the time it was created 
+	        print ("\n") #print a space
+	        count += 1 #add to the count
 
